@@ -1,103 +1,156 @@
-import Image from "next/image";
+import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
-export default function Home() {
+const page = () => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* Navbar */}
+      <nav className="flex items-center justify-between px-6 py-4 md:px-12 lg:px-20">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-lg">🎯</span>
+          </div>
+          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            CareerAI
+          </span>
+        </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <Link href="/quiz">
+          <Button
+            variant="outline"
+            className="hover:scale-105 transition-transform"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Take Quiz
+          </Button>
+        </Link>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="px-6 py-12 md:px-12 lg:px-20">
+        <div className="max-w-6xl mx-auto">
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-20 animate-pulse"></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-purple-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
+          <div className="absolute bottom-40 left-1/4 w-12 h-12 bg-indigo-200 rounded-full opacity-20 animate-pulse delay-2000"></div>
+
+          {/* Main Hero Content */}
+          <div className="text-center space-y-8 relative z-10">
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium">
+              <span className="mr-2">✨</span>
+              AI-Powered Career Discovery
+            </div>
+
+            {/* Headlines */}
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  Find Your Ideal
+                </span>
+                <br />
+                <span className="text-slate-800 dark:text-slate-100">
+                  Career with AI
+                </span>
+              </h1>
+
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Answer a few questions. Get tailored career suggestions backed
+                by machine learning. Discover opportunities that match your
+                skills, interests, and aspirations.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div className="pt-4">
+              <Link href="/quiz">
+                <Button
+                  size="lg"
+                  className="text-lg px-8 py-6 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                >
+                  <span className="mr-2">🚀</span>
+                  Start Career Quiz
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mt-20">
+            <Card className="p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+              <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto">
+                  <span className="text-2xl">🧠</span>
+                </div>
+                <h3 className="font-semibold text-lg">AI-Powered Analysis</h3>
+                <p className="text-slate-600 dark:text-slate-300 text-sm">
+                  Advanced algorithms analyze your responses to suggest perfect
+                  career matches
+                </p>
+              </div>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+              <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto">
+                  <span className="text-2xl">⚡</span>
+                </div>
+                <h3 className="font-semibold text-lg">Quick & Easy</h3>
+                <p className="text-slate-600 dark:text-slate-300 text-sm">
+                  Complete the assessment in just 5 minutes and get instant
+                  results
+                </p>
+              </div>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+              <div className="text-center space-y-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mx-auto">
+                  <span className="text-2xl">🎯</span>
+                </div>
+                <h3 className="font-semibold text-lg">Personalized Results</h3>
+                <p className="text-slate-600 dark:text-slate-300 text-sm">
+                  Get detailed insights tailored specifically to your unique
+                  profile
+                </p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Stats Section */}
+          <div className="mt-20 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="space-y-2">
+                <div className="text-3xl font-bold text-blue-600">10K+</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">
+                  Careers Matched
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-3xl font-bold text-purple-600">95%</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">
+                  Accuracy Rate
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-3xl font-bold text-indigo-600">5min</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">
+                  Average Time
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-3xl font-bold text-blue-600">500+</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">
+                  Career Options
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
-}
+};
+
+export default page;
