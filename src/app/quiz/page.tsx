@@ -191,18 +191,15 @@ const Quiz = () => {
         </div>
 
         <Card className="shadow-2xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 p-1">
-            <CardHeader className="text-center pb-6 bg-white/80 dark:bg-slate-800/80 rounded-t-xl">
-              <CardTitle className="flex items-center justify-center gap-2 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                <span>📋</span>
-                Tell Us About Yourself
-              </CardTitle>
-              <p className="text-slate-600 dark:text-slate-300 mt-2">
-                Complete all fields to get your personalized career
-                recommendation
-              </p>
-            </CardHeader>
-          </div>
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="flex items-center justify-center gap-2 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span>📋</span>
+              Tell Us About Yourself
+            </CardTitle>
+            <p className="text-slate-600 dark:text-slate-300 mt-2">
+              Complete all fields to get your personalized career recommendation
+            </p>
+          </CardHeader>
 
           <CardContent className="space-y-8 p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
