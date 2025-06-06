@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 AI Career Predictor (Next.js)
 
-## Getting Started
+> 🎯 A responsive and visually-rich frontend project built using **Next.js 15**, styled with **Tailwind CSS + ShadCN/UI**, and deployed on **Vercel**.
 
-First, run the development server:
+> 💡 Note: This is a **frontend-only project**. The predictions are based on static or mock data for demonstration purposes.
+
+## ✨ Features
+
+- ✅ **Next.js App Router** with dynamic routing
+- 🧠 `useSearchParams` usage for URL data parsing
+- 💅 Styled using **Tailwind CSS** with **ShadCN UI components**
+- 🌗 Light & Dark mode ready
+- 📱 Mobile-friendly and fully responsive
+- 🔄 Smooth animations and interactive cards
+- ☁️ Deployed on **Vercel**
+
+## 🧰 Tech Stack
+
+| Technology        | Purpose                                 |
+|-------------------|------------------------------------------|
+| **Next.js 15**     | React-based framework (App Directory)   |
+| **Tailwind CSS**   | Utility-first CSS framework             |
+| **ShadCN/UI**      | Pre-built components using Radix UI     |
+| **Lucide Icons**   | Icon library used in UI                 |
+| **Vercel**         | Hosting platform for deployment         |
+
+## 🛠️ Getting Started
+
+To run this project locally:
 
 ```bash
+# Clone the repo
+git clone https://github.com/yourusername/ai-career-predictor
+
+# Go into the project directory
+cd ai-career-predictor
+
+# Install dependencies
+npm install
+
+# Start local server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+#The app runs on http://localhost:3000
 ```
+## 🌐 Live Deployment
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project is hosted on **Vercel** with automatic CI/CD from the `main` branch.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 **Live Site:** [[https://ai-career-predictor-three.vercel.app](https://ai-career-predictor-three.vercel.app/)]
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> Vercel ensures fast global delivery, automatic SSL, and serverless infrastructure optimized for **Next.js**.
 
-## Learn More
+### 🛠 Deployment Highlights
 
-To learn more about Next.js, take a look at the following resources:
+- ✅ Push to `main` = instant deployment  
+- ✅ Automatic build + preview generation  
+- ✅ Zero-config hosting for Next.js 15  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👋 Connect with Me
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 🔗 [LinkedIn](https://linkedin.com/in/HarshilBrahmani)
+- 🐱 [GitHub](https://github.com/harshilbh2005)
 
-## Deploy on Vercel
+> I'm actively building projects and learning — happy to connect!
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> 💼 This project is part of my **Next.js learning journey**. It's frontend-only and serves to showcase UI building, routing, and deployment. Future versions may integrate backend APIs or AI predictions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with 💖 using **Next.js + Tailwind + ShadCN**.
