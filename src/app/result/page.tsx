@@ -1,10 +1,12 @@
-import dynamic from "next/dynamic";
-
-// Dynamically load client-only result page
-const ClientResultPage = dynamic(() => import("./client-result"), {
-  ssr: false,
-});
+import { Suspense } from "react";
+import ClientResult from "./client-result";
 
 export default function ResultWrapperPage() {
-  return <ClientResultPage />;
+  return (
+    <Suspense
+      fallback={<div className="p-10 text-center">Loading result...</div>}
+    >
+      <ClientResult />
+    </Suspense>
+  );
 }
