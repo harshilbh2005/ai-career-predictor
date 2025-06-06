@@ -9,7 +9,6 @@
 - ✅ **Next.js App Router** with dynamic routing
 - 🧠 `useSearchParams` usage for URL data parsing
 - 💅 Styled using **Tailwind CSS** with **ShadCN UI components**
-- 🌗 Light & Dark mode ready
 - 📱 Mobile-friendly and fully responsive
 - 🔄 Smooth animations and interactive cards
 - ☁️ Deployed on **Vercel**
