@@ -262,17 +262,17 @@ const Quiz = () => {
 
                 {/* Selected Skills */}
                 {formData.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-2 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                  <div className="flex flex-wrap gap-2 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-blue-100 dark:border-slate-600">
                     {formData.skills.map((skill) => (
                       <Badge
                         key={skill}
                         variant="secondary"
-                        className="px-3 py-1 text-sm flex items-center gap-1 hover:bg-slate-200 dark:hover:bg-slate-600"
+                        className="px-3 py-2 text-sm flex items-center gap-2 bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-600 hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
                       >
                         {skill}
                         <X
                           size={14}
-                          className="cursor-pointer hover:text-red-500"
+                          className="cursor-pointer hover:text-red-500 transition-colors"
                           onClick={() => handleSkillRemove(skill)}
                         />
                       </Badge>
@@ -285,12 +285,12 @@ const Quiz = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className={`w-full h-12 justify-between text-left ${
-                      errors.skills ? "border-red-500" : ""
+                    className={`w-full h-12 justify-between text-left hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
+                      errors.skills ? "border-red-500" : "border-slate-200 dark:border-slate-600"
                     }`}
                     onClick={() => setShowSkillsDropdown(!showSkillsDropdown)}
                   >
-                    <span>
+                    <span className="text-slate-700 dark:text-slate-300">
                       {formData.skills.length === 0
                         ? "Click to select your skills..."
                         : `${formData.skills.length} skill${
@@ -303,7 +303,7 @@ const Quiz = () => {
                       )}
                       <ChevronDown
                         size={16}
-                        className={`transition-transform ${
+                        className={`transition-transform text-slate-400 ${
                           showSkillsDropdown ? "rotate-180" : ""
                         }`}
                       />
@@ -311,19 +311,19 @@ const Quiz = () => {
                   </Button>
 
                   {showSkillsDropdown && (
-                    <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white dark:bg-slate-800 border rounded-lg shadow-lg max-h-48 overflow-y-auto">
-                      <div className="p-2 border-b">
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <div className="absolute top-full left-0 right-0 z-10 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                      <div className="p-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-750">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                           Click skills to add them to your profile
                         </p>
                       </div>
                       {availableSkills.map((skill) => (
                         <div
                           key={skill}
-                          className="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-sm flex items-center justify-between group"
+                          className="px-4 py-3 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer text-sm flex items-center justify-between group border-b border-slate-50 dark:border-slate-750 last:border-b-0 transition-colors"
                           onClick={() => handleSkillAdd(skill)}
                         >
-                          <span>{skill}</span>
+                          <span className="text-slate-700 dark:text-slate-300">{skill}</span>
                           <Plus
                             size={14}
                             className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -331,17 +331,18 @@ const Quiz = () => {
                         </div>
                       ))}
                       {availableSkills.length === 0 && (
-                        <div className="px-4 py-3 text-slate-500 text-sm text-center">
-                          🎉 All skills selected! You can remove skills by
-                          clicking the ✕ on them above.
+                        <div className="px-4 py-6 text-slate-500 text-sm text-center">
+                          <div className="text-2xl mb-2">🎉</div>
+                          <div>All skills selected!</div>
+                          <div className="text-xs mt-1">You can remove skills by clicking the ✕ on them above.</div>
                         </div>
                       )}
-                      <div className="p-2 border-t bg-slate-50 dark:bg-slate-700">
+                      <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-750">
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="w-full text-xs"
+                          className="w-full text-xs hover:bg-white dark:hover:bg-slate-800 transition-colors"
                           onClick={() => setShowSkillsDropdown(false)}
                         >
                           Done Adding Skills
@@ -359,10 +360,12 @@ const Quiz = () => {
                 )}
 
                 {/* Skills Helper Text */}
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  💡 Tip: Select all skills you have experience with. You can
-                  always add more by clicking the dropdown again.
-                </p>
+                <div className="p-3 bg-blue-50 dark:bg-slate-800 rounded-lg border border-blue-100 dark:border-slate-600">
+                  <p className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-2">
+                    <span>💡</span>
+                    <span>Tip: Select all skills you have experience with. You can always add more by clicking the dropdown again.</span>
+                  </p>
+                </div>
               </div>
 
               {/* Interest Area */}
@@ -386,17 +389,21 @@ const Quiz = () => {
                   {interestAreas.map((area) => (
                     <div
                       key={area.value}
-                      className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-colors ${
-                        errors.interest ? "border-red-200" : ""
+                      className={`flex items-center space-x-3 p-4 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-all duration-200 hover:shadow-sm ${
+                        formData.interest === area.value 
+                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-sm" 
+                          : errors.interest 
+                            ? "border-red-200" 
+                            : "border-slate-200 dark:border-slate-600"
                       }`}
                     >
                       <RadioGroupItem value={area.value} id={area.value} />
                       <Label
                         htmlFor={area.value}
-                        className="flex items-center gap-2 cursor-pointer flex-1"
+                        className="flex items-center gap-3 cursor-pointer flex-1"
                       >
-                        <span className="text-lg">{area.icon}</span>
-                        <span className="text-sm">{area.label}</span>
+                        <span className="text-xl">{area.icon}</span>
+                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{area.label}</span>
                       </Label>
                     </div>
                   ))}
@@ -418,7 +425,7 @@ const Quiz = () => {
                     (Optional)
                   </span>
                 </Label>
-                <div className="px-4 py-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                <div className="px-6 py-6 bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-slate-200 dark:border-slate-600">
                   <Slider
                     value={formData.workStyle}
                     onValueChange={(value) =>
@@ -429,12 +436,20 @@ const Quiz = () => {
                     step={1}
                     className="w-full"
                   />
-                  <div className="flex justify-between mt-3 text-sm text-slate-600 dark:text-slate-300">
-                    <span>🛠️ Hands-on Work</span>
-                    <span className="font-semibold text-blue-600">
-                      {formData.workStyle[0]}/10
+                  <div className="flex justify-between items-center mt-4 text-sm">
+                    <span className="text-slate-600 dark:text-slate-300 flex items-center gap-1">
+                      <span>🛠️</span>
+                      <span>Hands-on Work</span>
                     </span>
-                    <span>🔬 Research-heavy</span>
+                    <div className="px-3 py-1 bg-white dark:bg-slate-800 rounded-full border border-blue-200 dark:border-slate-600">
+                      <span className="font-bold text-blue-600 dark:text-blue-400">
+                        {formData.workStyle[0]}/10
+                      </span>
+                    </div>
+                    <span className="text-slate-600 dark:text-slate-300 flex items-center gap-1">
+                      <span>🔬</span>
+                      <span>Research-heavy</span>
+                    </span>
                   </div>
                 </div>
               </div>
