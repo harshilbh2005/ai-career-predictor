@@ -174,30 +174,25 @@ const Quiz = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-8">
       <div className="container mx-auto px-4 max-w-2xl">
-        {/* Header */}
-        <div className="text-center mb-8">
+        {/* Simple Back Link */}
+        <div className="mb-8">
           <Link
             href="/"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4"
+            className="inline-flex items-center text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            Career Discovery Quiz
-          </h1>
-          <p className="text-slate-600 dark:text-slate-300">
-            Help us understand your profile to suggest the perfect career match
-          </p>
         </div>
 
         <Card className="shadow-2xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl overflow-hidden">
           <CardHeader className="text-center pb-6">
-            <CardTitle className="flex items-center justify-center gap-2 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <CardTitle className="flex items-center justify-center gap-2 text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               <span>📋</span>
-              Tell Us About Yourself
+              Career Discovery Quiz
             </CardTitle>
-            <p className="text-slate-600 dark:text-slate-300 mt-2">
-              Complete all fields to get your personalized career recommendation
+            <p className="text-slate-600 dark:text-slate-300 mt-2 text-lg">
+              Tell us about yourself to get your personalized career
+              recommendation
             </p>
           </CardHeader>
 
