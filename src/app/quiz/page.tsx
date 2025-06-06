@@ -233,8 +233,10 @@ const Quiz = () => {
                   <SelectContent>
                     <SelectItem value="high-school">High School</SelectItem>
                     <SelectItem value="associate">Associate Degree</SelectItem>
-                    <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
-                    <SelectItem value="master">Master's Degree</SelectItem>
+                    <SelectItem value="bachelor">
+                      Bachelor&apos;s Degree
+                    </SelectItem>
+                    <SelectItem value="master">Master&apos;s Degree</SelectItem>
                     <SelectItem value="phd">PhD/Doctorate</SelectItem>
                     <SelectItem value="other">Other/Self-taught</SelectItem>
                   </SelectContent>
