@@ -14,8 +14,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { X, Loader2, ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const skillsOptions = [
   "Python",
@@ -51,7 +52,17 @@ const interestAreas = [
   { value: "education", label: "Education & Training", icon: "📚" },
 ];
 
+interface ValidationErrors {
+  education?: string;
+  skills?: string;
+  interest?: string;
+}
+
 const Quiz = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<ValidationErrors>({});
+
   const [formData, setFormData] = useState({
     education: "",
     skills: [] as string[],
@@ -69,8 +80,13 @@ const Quiz = () => {
         skills: [...prev.skills, skill],
       }));
       setAvailableSkills((prev) => prev.filter((s) => s !== skill));
+
+      // Clear skills error if exists
+      if (errors.skills) {
+        setErrors((prev) => ({ ...prev, skills: undefined }));
+      }
     }
-    setShowSkillsDropdown(false);
+    // Keep dropdown open for better UX
   };
 
   const handleSkillRemove = (skill: string) => {
@@ -81,10 +97,75 @@ const Quiz = () => {
     setAvailableSkills((prev) => [...prev, skill].sort());
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = (): boolean => {
+    const newErrors: ValidationErrors = {};
+
+    // Validate education
+    if (!formData.education) {
+      newErrors.education = "Please select your education level";
+    }
+
+    // Validate skills
+    if (formData.skills.length === 0) {
+      newErrors.skills = "Please select at least one skill";
+    }
+
+    // Validate interest
+    if (!formData.interest) {
+      newErrors.interest = "Please select your primary interest area";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    // TODO: Navigate to /result or call API
+
+    // Validate form before proceeding
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      console.log("Form Data:", formData);
+
+      // Call the prediction API
+      const response = await fetch("/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get prediction");
+      }
+
+      const result = await response.json();
+
+      // Create URL with query parameters
+      const params = new URLSearchParams({
+        career: result.topCareer,
+        confidence: result.confidence.toString(),
+        alt1: result.alternatives[0] || "",
+        alt2: result.alternatives[1] || "",
+        reasons: JSON.stringify(result.matchReasons),
+        salary: result.salaryRange,
+        growth: result.growthRate,
+      });
+
+      // Navigate to result page with data
+      router.push(`/result?${params.toString()}`);
+    } catch (error) {
+      console.error("Error submitting quiz:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isFormValid =
@@ -109,29 +190,44 @@ const Quiz = () => {
           </p>
         </div>
 
-        <Card className="shadow-xl border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="flex items-center justify-center gap-2 text-xl">
-              <span>📋</span>
-              Tell Us About Yourself
-            </CardTitle>
-          </CardHeader>
+        <Card className="shadow-2xl border-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 p-1">
+            <CardHeader className="text-center pb-6 bg-white/80 dark:bg-slate-800/80 rounded-t-xl">
+              <CardTitle className="flex items-center justify-center gap-2 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span>📋</span>
+                Tell Us About Yourself
+              </CardTitle>
+              <p className="text-slate-600 dark:text-slate-300 mt-2">
+                Complete all fields to get your personalized career
+                recommendation
+              </p>
+            </CardHeader>
+          </div>
 
-          <CardContent className="space-y-8">
+          <CardContent className="space-y-8 p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Education Level */}
               <div className="space-y-3">
                 <Label className="text-base font-semibold flex items-center gap-2">
                   <span>🎓</span>
                   Education Level
+                  <span className="text-red-500">*</span>
                 </Label>
                 <Select
                   value={formData.education}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, education: value }))
-                  }
+                  onValueChange={(value) => {
+                    setFormData((prev) => ({ ...prev, education: value }));
+                    // Clear error when user selects
+                    if (errors.education) {
+                      setErrors((prev) => ({ ...prev, education: undefined }));
+                    }
+                  }}
                 >
-                  <SelectTrigger className="h-12 text-base">
+                  <SelectTrigger
+                    className={`h-12 text-base ${
+                      errors.education ? "border-red-500" : ""
+                    }`}
+                  >
                     <SelectValue placeholder="Select your education level" />
                   </SelectTrigger>
                   <SelectContent>
@@ -143,6 +239,12 @@ const Quiz = () => {
                     <SelectItem value="other">Other/Self-taught</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.education && (
+                  <p className="text-red-500 text-sm flex items-center gap-1">
+                    <span>⚠️</span>
+                    {errors.education}
+                  </p>
+                )}
               </div>
 
               {/* Skills Multi-Select */}
@@ -150,6 +252,7 @@ const Quiz = () => {
                 <Label className="text-base font-semibold flex items-center gap-2">
                   <span>💼</span>
                   Skills & Technologies
+                  <span className="text-red-500">*</span>
                   <span className="text-sm font-normal text-slate-500">
                     (Select multiple)
                   </span>
@@ -175,40 +278,89 @@ const Quiz = () => {
                   </div>
                 )}
 
-                {/* Skills Dropdown */}
+                {/* Enhanced Skills Dropdown */}
                 <div className="relative">
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full h-12 justify-start text-left"
+                    className={`w-full h-12 justify-between text-left ${
+                      errors.skills ? "border-red-500" : ""
+                    }`}
                     onClick={() => setShowSkillsDropdown(!showSkillsDropdown)}
                   >
-                    {formData.skills.length === 0
-                      ? "Click to select your skills..."
-                      : `${formData.skills.length} skill${
-                          formData.skills.length > 1 ? "s" : ""
-                        } selected`}
+                    <span>
+                      {formData.skills.length === 0
+                        ? "Click to select your skills..."
+                        : `${formData.skills.length} skill${
+                            formData.skills.length > 1 ? "s" : ""
+                          } selected`}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      {availableSkills.length > 0 && (
+                        <Plus size={16} className="text-blue-600" />
+                      )}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform ${
+                          showSkillsDropdown ? "rotate-180" : ""
+                        }`}
+                      />
+                    </div>
                   </Button>
 
                   {showSkillsDropdown && (
                     <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-white dark:bg-slate-800 border rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                      <div className="p-2 border-b">
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          Click skills to add them to your profile
+                        </p>
+                      </div>
                       {availableSkills.map((skill) => (
                         <div
                           key={skill}
-                          className="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-sm"
+                          className="px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer text-sm flex items-center justify-between group"
                           onClick={() => handleSkillAdd(skill)}
                         >
-                          {skill}
+                          <span>{skill}</span>
+                          <Plus
+                            size={14}
+                            className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                          />
                         </div>
                       ))}
                       {availableSkills.length === 0 && (
-                        <div className="px-4 py-2 text-slate-500 text-sm">
-                          All skills selected
+                        <div className="px-4 py-3 text-slate-500 text-sm text-center">
+                          🎉 All skills selected! You can remove skills by
+                          clicking the ✕ on them above.
                         </div>
                       )}
+                      <div className="p-2 border-t bg-slate-50 dark:bg-slate-700">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="w-full text-xs"
+                          onClick={() => setShowSkillsDropdown(false)}
+                        >
+                          Done Adding Skills
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>
+
+                {errors.skills && (
+                  <p className="text-red-500 text-sm flex items-center gap-1">
+                    <span>⚠️</span>
+                    {errors.skills}
+                  </p>
+                )}
+
+                {/* Skills Helper Text */}
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  💡 Tip: Select all skills you have experience with. You can
+                  always add more by clicking the dropdown again.
+                </p>
               </div>
 
               {/* Interest Area */}
@@ -216,18 +368,25 @@ const Quiz = () => {
                 <Label className="text-base font-semibold flex items-center gap-2">
                   <span>❤️</span>
                   Primary Interest Area
+                  <span className="text-red-500">*</span>
                 </Label>
                 <RadioGroup
                   value={formData.interest}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, interest: value }))
-                  }
+                  onValueChange={(value) => {
+                    setFormData((prev) => ({ ...prev, interest: value }));
+                    // Clear error when user selects
+                    if (errors.interest) {
+                      setErrors((prev) => ({ ...prev, interest: undefined }));
+                    }
+                  }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-3"
                 >
                   {interestAreas.map((area) => (
                     <div
                       key={area.value}
-                      className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
+                      className={`flex items-center space-x-3 p-3 border rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-colors ${
+                        errors.interest ? "border-red-200" : ""
+                      }`}
                     >
                       <RadioGroupItem value={area.value} id={area.value} />
                       <Label
@@ -240,6 +399,12 @@ const Quiz = () => {
                     </div>
                   ))}
                 </RadioGroup>
+                {errors.interest && (
+                  <p className="text-red-500 text-sm flex items-center gap-1">
+                    <span>⚠️</span>
+                    {errors.interest}
+                  </p>
+                )}
               </div>
 
               {/* Work Style Preference */}
@@ -247,6 +412,9 @@ const Quiz = () => {
                 <Label className="text-base font-semibold flex items-center gap-2">
                   <span>⚖️</span>
                   Work Style Preference
+                  <span className="text-xs text-slate-500 font-normal">
+                    (Optional)
+                  </span>
                 </Label>
                 <div className="px-4 py-6 bg-slate-50 dark:bg-slate-700 rounded-lg">
                   <Slider
@@ -274,18 +442,42 @@ const Quiz = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  disabled={!isFormValid}
-                  className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 hover:scale-[1.02] transition-all duration-300 shadow-lg"
+                  disabled={isLoading}
+                  className="w-full h-16 text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 disabled:opacity-50 transition-all duration-500 shadow-2xl hover:shadow-blue-500/25 hover:scale-[1.02] rounded-xl border-0"
                 >
-                  <span className="mr-2">🚀</span>
-                  Discover My Career Path
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                      <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                        Analyzing Your Profile...
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="mr-3 text-2xl">🚀</span>
+                      <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                        Discover My Career Path
+                      </span>
+                    </>
+                  )}
                 </Button>
 
-                {!isFormValid && (
-                  <p className="text-center text-sm text-slate-500 mt-2">
-                    Please fill in all required fields to continue
-                  </p>
-                )}
+                {/* Form Status */}
+                <div className="mt-4 text-center">
+                  {!isFormValid &&
+                    !isLoading &&
+                    Object.keys(errors).length === 0 && (
+                      <p className="text-sm text-slate-500">
+                        Please fill in all required fields (*) to continue
+                      </p>
+                    )}
+                  {isFormValid && (
+                    <p className="text-sm text-green-600 flex items-center justify-center gap-1">
+                      <span>✅</span>
+                      Ready to discover your career path!
+                    </p>
+                  )}
+                </div>
               </div>
             </form>
           </CardContent>
