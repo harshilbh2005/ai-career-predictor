@@ -283,7 +283,9 @@ const Quiz = () => {
                     type="button"
                     variant="outline"
                     className={`w-full h-12 justify-between text-left hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
-                      errors.skills ? "border-red-500" : "border-slate-200 dark:border-slate-600"
+                      errors.skills
+                        ? "border-red-500"
+                        : "border-slate-200 dark:border-slate-600"
                     }`}
                     onClick={() => setShowSkillsDropdown(!showSkillsDropdown)}
                   >
@@ -320,7 +322,9 @@ const Quiz = () => {
                           className="px-4 py-3 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer text-sm flex items-center justify-between group border-b border-slate-50 dark:border-slate-750 last:border-b-0 transition-colors"
                           onClick={() => handleSkillAdd(skill)}
                         >
-                          <span className="text-slate-700 dark:text-slate-300">{skill}</span>
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {skill}
+                          </span>
                           <Plus
                             size={14}
                             className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -331,7 +335,10 @@ const Quiz = () => {
                         <div className="px-4 py-6 text-slate-500 text-sm text-center">
                           <div className="text-2xl mb-2">🎉</div>
                           <div>All skills selected!</div>
-                          <div className="text-xs mt-1">You can remove skills by clicking the ✕ on them above.</div>
+                          <div className="text-xs mt-1">
+                            You can remove skills by clicking the ✕ on them
+                            above.
+                          </div>
                         </div>
                       )}
                       <div className="p-3 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-750">
@@ -360,7 +367,10 @@ const Quiz = () => {
                 <div className="p-3 bg-blue-50 dark:bg-slate-800 rounded-lg border border-blue-100 dark:border-slate-600">
                   <p className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-2">
                     <span>💡</span>
-                    <span>Tip: Select all skills you have experience with. You can always add more by clicking the dropdown again.</span>
+                    <span>
+                      Tip: Select all skills you have experience with. You can
+                      always add more by clicking the dropdown again.
+                    </span>
                   </p>
                 </div>
               </div>
@@ -387,11 +397,11 @@ const Quiz = () => {
                     <div
                       key={area.value}
                       className={`flex items-center space-x-3 p-4 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer transition-all duration-200 hover:shadow-sm ${
-                        formData.interest === area.value 
-                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-sm" 
-                          : errors.interest 
-                            ? "border-red-200" 
-                            : "border-slate-200 dark:border-slate-600"
+                        formData.interest === area.value
+                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-sm"
+                          : errors.interest
+                          ? "border-red-200"
+                          : "border-slate-200 dark:border-slate-600"
                       }`}
                     >
                       <RadioGroupItem value={area.value} id={area.value} />
@@ -400,7 +410,9 @@ const Quiz = () => {
                         className="flex items-center gap-3 cursor-pointer flex-1"
                       >
                         <span className="text-xl">{area.icon}</span>
-                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{area.label}</span>
+                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                          {area.label}
+                        </span>
                       </Label>
                     </div>
                   ))}
